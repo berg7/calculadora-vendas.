@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora de Lucro</title>
+<style>
+    body { font-family: Arial, sans-serif; }
+    .calculator { margin: 20px; padding: 20px; border: 1px solid #ccc; width: 300px; }
+    input, button, select { width: 100%; padding: 10px; margin-top: 5px; }
+</style>
+</head>
+<body>
+<div class="calculator">
+    <label for="product">Produto:</label>
+    <select id="product" onchange="updatePrice()">
+        <option value="10">Produto A - R$10</option>
+        <option value="20">Produto B - R$20</option>
+    </select>
+    <label for="quantity">Quantidade:</label>
+    <input type="number" id="quantity" value="1" min="1" onchange="calculateProfit()">
+    <label for="freight">Valor do Frete:</label>
+    <input type="number" id="freight" value="0" onchange="calculateProfit()">
+    <button onclick="calculateProfit()">Calcular Lucro</button>
+    <p id="output"></p>
+</div>
+<script>
+    var productPrices = { 'Produto A': 10, 'Produto B': 20 };
+
+    function updatePrice() {
+        var productSelect = document.getElementById('product');
+        var productOption = productSelect.options[productSelect.selectedIndex].text;
+        var price = productPrices[productOption.split(' - ')[0]];
+        productSelect.value = price;
+        calculateProfit();
+    }
+
+    function calculateProfit() {
+        var price = parseFloat(document.getElementById('product').value);
+        var quantity = parseInt(document.getElementById('quantity').value);
+        var freight = parseFloat(document.getElementById('freight').value);
+        var revenue = price * quantity;
+        var profit = revenue - freight;
+        var profitPercent = (profit / revenue) * 100;
+
+        document.getElementById('output').innerHTML = 'Faturamento: R$' + revenue.toFixed(2) +
+            '<br>Lucro: R$' + profit.toFixed(2) +
+            '<br>Percentual de Lucro: ' + profitPercent.toFixed(2) + '%';
+    }
+</script>
+</body>
+</html>
